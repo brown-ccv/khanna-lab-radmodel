@@ -22,8 +22,8 @@ export OMPI_MCA_btl=^openib
 
 #source /gpfs/data/akhann16/sfw/pyenvs/repast4py-py3.11/bin/activate
 #source /oscar/home/akhann16/sfw/pyenvs/radmodel-py3.11/bin/activate  # old per-user venv
-source /oscar/data/akhann16/sfw/pyenvs/radmodel-py3.11/bin/activate
-
+#source /oscar/data/akhann16/sfw/pyenvs/radmodel-py3.11/bin/activate
+source ~/.venvs/radmodel-py3.11/bin/activate
 # SWFIT-t stuff
 #export PATH=/gpfs/data/akhann16/sfw/tcl-8.6.12/bin:/gpfs/data/akhann16/sfw/apache-ant-1.10.12/bin:$PATH
 #export R_LIBS_USER=/gpfs/data/akhann16/sfw/rlibs/4.3.1

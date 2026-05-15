@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-REPO="/oscar/home/akhann16/code/radmodel"
+REPO="/users/sbessey/akhann16/ccv/khanna-lab-radmodel"
 PARAMS="${1:-$REPO/params/radmodel_params.yaml}"
 
 cd "$REPO"
@@ -22,7 +22,7 @@ source settings.sh
 echo "Host: $(hostname)"
 echo "Job: ${SLURM_JOB_ID:-<none>}  Params: $PARAMS"
 echo "Started: $(date -Is)"
-
-mpirun -n "$SLURM_NTASKS" radmodel "$PARAMS"
+mpirun -n 1 radmodel "$PARAMS"
+# mpirun -n "$SLURM_NTASKS" radmodel "$PARAMS"
 
 echo "Finished: $(date -Is)"
