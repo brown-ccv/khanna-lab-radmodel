@@ -19,7 +19,7 @@ model=${PWD##*/}
 jobname=""
 num_cores=1
 date=`date +%Y-%m-%d-T%H-%M-%S`
-
+params="/users/sbessey/akhann16/ccv/khanna-lab-radmodel/params/radmodel_params.yaml"
 # read params and sbatch opts
 while getopts m:j:T:p:n: option
 do
@@ -39,7 +39,7 @@ if [[ $jobname == "" ]]; then
 	jobname="Analysis_$date"
 fi
 
-if [! $params ]; then
+if [[ $params == "" ]]; then
   params = "/users/sbessey/akhann16/ccv/khanna-lab-radmodel/params/radmodel_params.yaml"
 fi
 
@@ -53,7 +53,8 @@ outPath="$HOME/scratch/radmodel"
 prepSubmit() {
 	mkdir -p $finalPath
 	echo -e "\t$finalPath"
-	sbatch --output=$finalPath/slurm.out -J $jobname -t $walltime --mem=$memory -c $num_cores ./submit_radmodel.sh -p $params -o $finalPath/results
+#	sbatch --output=$finalPath/slurm.out -J $jobname -t $walltime --mem=$memory -c $num_cores ./submit_radmodel.sh -p $params -o $finalPath/results
+sbatch --output=$finalPath/slurm.out --error=$finalPath/slurm.err -J $jobname -t $walltime --mem=$memory -c $num_cores ./submit_radmodel.sh -p $params
 }
 
 echo -e "\tMaking directory in scratch"
