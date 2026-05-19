@@ -13,14 +13,16 @@ set -euo pipefail
 
 # REPO="/users/sbessey/akhann16/ccv/khanna-lab-radmodel"
 # PARAMS="${1:-$REPO/params/radmodel_params.yaml}"
-while getopts m:j:T:p:n: option
+while getopts m:j:T:p:n:o: option
 do
   case "${option}"
     in
   p) params=${OPTARG};;
+  o) output=${OPTARG};;
 esac
 done
 PARAMS=$params
+OUTFILE=$output
 # cd "$REPO"
 # mkdir -p logs
 # TODO what is settings?
@@ -29,7 +31,7 @@ source settings.sh
 echo "Host: $(hostname)"
 echo "Job: ${SLURM_JOB_ID:-<none>}  Params: $PARAMS"
 echo "Started: $(date -Is)"
-mpirun -n 1 radmodel "$PARAMS"
+mpirun -n 1 radmodel "$PARAMS" --o $OUTFILE
 # mpirun -n "$SLURM_NTASKS" radmodel "$PARAMS"
 
 echo "Finished: $(date -Is)"

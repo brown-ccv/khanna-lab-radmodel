@@ -27,10 +27,15 @@ def run(params: Dict, comm):
 
 def main():
     parser = create_args_parser()
+    parser.add_argument("-o", "--output")
     args = parser.parse_args()
     params = init_params(args.parameters_file, args.parameters)
     params_dir = os.path.dirname(args.parameters_file)
-    out_dir = params.get("output_dir", "output")
+    if args.output:
+        out_dir = args.output
+    else:
+        out_dir = params.get("output_dir", "output")
+    print(out_dir)
     for k, v in params.items():
         if isinstance(v, str):
             if "$this" in v:
