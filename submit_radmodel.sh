@@ -1,5 +1,4 @@
 #!/bin/bash
-#SBATCH --job-name=radmodel
 #SBATCH --output=logs/radmodel_%j.out
 #SBATCH --error=logs/radmodel_%j.err
 #SBATCH --partition=batch
@@ -11,28 +10,49 @@
 
 set -euo pipefail
 
-# REPO="/users/sbessey/akhann16/ccv/khanna-lab-radmodel"
-# PARAMS="${1:-$REPO/params/radmodel_params.yaml}"
-while getopts m:j:T:p:n:o: option
-do
-  case "${option}"
-    in
-  p) params=${OPTARG};;
-  o) output=${OPTARG};;
-esac
+# get param path
+paramPath="$1"
+shift
+walltime=02:00:00
+outfile="Jobname.o"
+memory=8G
+jobname=""
+num_cores=1
+processes=1
+# date=${date +%Y-%m-%d-T%H-%M-%S}
+usage() {
+  echo "usage: $0 {Parameter file} [-m memory] [-j jobname] [-T walltime] [-n nodes] [-o outfile]"
+}
+
+while getopts m:j:T:n:o: option; do
+  case "${option}" in
+  m) memory=${OPTARG} ;;
+  j) jobname=${OPTARG} ;;
+  T) walltime=${OPTARG} ;;
+  n) processes=${OPTARG} ;;
+  o) outfile=${OPTARG} ;;
+  *)
+    usage >&2
+    exit 1
+    ;;
+  esac
 done
-PARAMS=$params
-OUTFILE=$output
-# cd "$REPO"
-# mkdir -p logs
-# TODO what is settings?
-source settings.sh
+
+if [ ! "$paramPath" ]; then
+    usage;
+		exit 0;
+fi
+
+usage() {
+  echo "usage: $0 {Parameter file} [-m memory] [-j jobname] [-T walltime] [-n nodes] [-o outfile]"
+}
 
 echo "Host: $(hostname)"
-echo "Job: ${SLURM_JOB_ID:-<none>}  Params: $PARAMS"
+# echo "Job: ${SLURM_JOB_ID:-<none>}  Params: $PARAMS"
 echo "Started: $(date -Is)"
-mpirun -n 1 radmodel "$PARAMS" --o $OUTFILE
+
+# TO_REVIEW what do we want for n here?
+sbatch --o "$outfile" -m "$memory" -j "${jobname}" -T "${walltime}" mpirun -n "$processes" radmodel "$paramPath"
 # mpirun -n "$SLURM_NTASKS" radmodel "$PARAMS"
 
 echo "Finished: $(date -Is)"
-
