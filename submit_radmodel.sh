@@ -52,7 +52,7 @@ echo "Host: $(hostname)"
 echo "Started: $(date -Is)"
 
 # TO_REVIEW what do we want for n here?
-sbatch --o "$outfile" -m "$memory" -j "${jobname}" -T "${walltime}" mpirun -n "$processes" radmodel "$paramPath"
+sbatch --output="$outfile" --mem="$memory" -j "${jobname}" -t "${walltime}" mpirun -n "$processes" radmodel "$paramPath"
 # mpirun -n "$SLURM_NTASKS" radmodel "$PARAMS"
 
 echo "Finished: $(date -Is)"
