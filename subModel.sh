@@ -54,7 +54,7 @@ prepSubmit() {
 	mkdir -p $finalPath
 	echo -e "\t$finalPath"
 #	sbatch --output=$finalPath/slurm.out -J $jobname -t $walltime --mem=$memory -c $num_cores ./submit_radmodel.sh -p $params -o $finalPath/results
-sbatch --output=$finalPath/slurm.out --error=$finalPath/slurm.err -J $jobname -t $walltime --mem=$memory -c $num_cores ./submit_radmodel.sh -p $params -o $finalPath/results
+sbatch --output=$finalPath/slurm.out --error=$finalPath/slurm.err -J $jobname -t $walltime --mem=$memory -c $num_cores ./batch.sh $params -o $finalPath/results
 }
 
 echo -e "\tMaking directory in scratch"
